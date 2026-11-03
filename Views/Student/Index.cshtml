@@ -4,15 +4,41 @@
     ViewData["Title"] = "Student List";
 }
 
-<h1>Student Information System</h1>
+<h1>Student Management Dashboard</h1>
 
+<!-- Add Student Button -->
 <p>
     <a asp-action="Create" class="btn btn-primary">
         Add New Student
     </a>
 </p>
 
+<!-- Student Search Form -->
+<form asp-action="Index" method="get" class="mb-3">
+
+    <div class="input-group">
+
+        <input type="text"
+               name="searchString"
+               value="@ViewBag.CurrentFilter"
+               class="form-control"
+               placeholder="Search student by name..." />
+
+        <button type="submit" class="btn btn-success">
+            Search
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Clear
+        </a>
+
+    </div>
+
+</form>
+
+<!-- Student Information Table -->
 <table class="table table-bordered table-striped">
+
     <thead>
         <tr>
             <th>Student ID</th>
@@ -27,6 +53,7 @@
     </thead>
 
     <tbody>
+
         @foreach (var student in Model)
         {
             <tr>
@@ -54,5 +81,7 @@
                 </td>
             </tr>
         }
+
     </tbody>
-</table>                                                    
+
+</table>

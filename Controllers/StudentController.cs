@@ -9,12 +9,20 @@ namespace StudentInformationSystem.Controllers
     public class StudentController : Controller
     {
         // Step 1: Student List
-       // Step 2: Display Student List
-        public IActionResult Index()
+        // Step 2: Display Student List
+        public IActionResult Index(string? searchString)
         {
-            var students = _context.Students.ToList();
+            var students = _context.Students.AsQueryable();
 
-            return View(students);
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                students = students.Where(s =>
+                    s.Name.Contains(searchString));
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            return View(students.ToList());
         }
 
         // Step 3: Open Add Student Form
@@ -24,9 +32,7 @@ namespace StudentInformationSystem.Controllers
         }
 
         // Step 4: Receive New Student Data
-        [HttpPost]
-        [HttpPost]
-        [HttpPost]
+       
         [HttpPost]
         public IActionResult Create(Student student)
         {
@@ -57,8 +63,7 @@ namespace StudentInformationSystem.Controllers
 
             return View(student);
         }
-        [HttpPost]
-        [HttpPost]
+      
         [HttpPost]
         public IActionResult Edit(Student updatedStudent)
         {
